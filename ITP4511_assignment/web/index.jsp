@@ -10,14 +10,14 @@
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script> 
+    <script>
         $(document).ready(function() {
             $('#login_message').hide();
             $('#register_message').hide();
             $('#btn_login').click(function(event) {
                     var username = $('#username').val();
                     var password = $('#password').val();
-                    
+
                     $.ajax({
                         type: 'POST',
                         url: 'login',
@@ -33,15 +33,16 @@
                                 $('#login_message').attr('class', 'alert alert-success');
                                 $('#login_message').show();
                                 $('#login_message').text("Login Successfully.");
-                                
+
                                 setTimeout(function(){
-                                   location.reload();
+                                     <jsp:forward page="logined.jsp" />
                                 }, 500);
+                                
                             }
                         }
                     });
             });
-            
+
             $('#btn_register').click(function() {
                     var first_name = $('#first_name').val();
                     var last_name = $('#last_name').val();
@@ -50,7 +51,7 @@
                     var address = $('#address').val();
                     var password = $('#pass').val();
                     var email = $('#email').val();
-                    
+
                     $.ajax({
                         type: "POST",
                         url: 'register',
@@ -75,7 +76,7 @@
                         }
                     });
             });
-            
+
              $('body').on('click', '#test', function () {
                  $('li a[href="#sectionA"]').tab('show');
                  $('.sa-innate-form').show();
