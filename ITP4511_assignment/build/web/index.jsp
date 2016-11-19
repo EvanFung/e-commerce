@@ -29,13 +29,14 @@
                             if(responseText!='True'){
                                 $('#login_message').show();
                                 $('#login_message').text(responseText);
+                                
                             }else {
                                 $('#login_message').attr('class', 'alert alert-success');
                                 $('#login_message').show();
                                 $('#login_message').text("Login Successfully.");
-
+                                
                                 setTimeout(function(){
-                                     <jsp:forward page="logined.jsp" />
+                                     window.location.href = "logined.jsp";
                                 }, 500);
                                 
                             }

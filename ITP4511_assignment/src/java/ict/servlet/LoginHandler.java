@@ -54,17 +54,10 @@ public class LoginHandler extends HttpServlet {
             response.addCookie(cookie_password);
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write("True");
-            targetURL = "/logined.jsp";
         } else {
             response.setContentType("text/plain");
             response.getWriter().write("Login Details Incorrect. Please try again.");
-            targetURL = "/index.jsp";
         }
-
-        //forward to desire page
-        RequestDispatcher rd;
-        rd = getServletContext().getRequestDispatcher("/" + targetURL);
-        rd.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

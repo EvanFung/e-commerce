@@ -75,7 +75,8 @@
                                 <li><a href="contactus.html">Contact Us</a></li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="dropdown">
+                            
                             <%
                                 String username = "";
                                 String cookieName = "username";
@@ -89,7 +90,14 @@
                                     }
                                 }
                             %>
-                            <span class="label label-default">Welcome <%=username%></span>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Welcome  <%=username%>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Personal Information</a></li>
+                                <li><a href="contactus.html">Contact Us</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
