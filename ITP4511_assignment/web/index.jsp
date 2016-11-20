@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="ict.bean.ProductBean"%>
 <!DOCTYPE html>
 <%!
     private ProductDB db;

@@ -30,27 +30,27 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
   <![endif]-->
   <style>
-ul.pagination {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
+    ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
 
-ul.pagination li {display: inline;}
+    ul.pagination li {display: inline;}
 
-ul.pagination li a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-}
+    ul.pagination li a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
 
-ul.pagination li a.active {
-    background-color: #4CAF50;
-    color: white;
-}
+    ul.pagination li a.active {
+        background-color: #4CAF50;
+        color: white;
+    }
 
-ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+    ul.pagination li a:hover:not(.active) {background-color: #ddd;}
   </style>
   <script>
       $(document).ready(function(){
