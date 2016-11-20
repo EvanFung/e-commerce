@@ -5,107 +5,77 @@
  */
 package ict.bean;
 
-import java.io.Serializable;
-
 /**
  *
- * @author EVANFUNG
+ * @author Chris
  */
-public class ProductBean implements Serializable{
-    //product id
-    private String p_id;
-    //product name
-    private String p_name;
-    //product descriptions
-    private String descriptions;
-    //product price
-    private double price;
-    //product picture path
-    private String picturePath;
-    //in which category
-    private CategoryBean c_id;
-    //the one who design this product
-    private String designer_name;
-    //customer select quantity
-    private int p_qty;
+public class ProductBean {
+    private String id, name, description, price, color, size, brand, image;
 
-    public ProductBean() {
+    public String getImage() {
+        return image;
     }
 
-    public ProductBean(String p_id, String p_name, String descriptions, double price, String picturePath, CategoryBean c_id, String designer_name, int p_qty) {
-        this.p_id = p_id;
-        this.p_name = p_name;
-        this.descriptions = descriptions;
-        this.price = price;
-        this.picturePath = picturePath;
-        this.c_id = c_id;
-        this.designer_name = designer_name;
-        this.p_qty = p_qty;
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    public ProductBean(){ 
     }
 
-    public String getP_id() {
-        return p_id;
+    public String getId() {
+        return id;
     }
 
-    public void setP_id(String p_id) {
-        this.p_id = p_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getP_name() {
-        return p_name;
+    public String getName() {
+        return name;
     }
 
-    public void setP_name(String p_name) {
-        this.p_name = p_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescriptions() {
-        return descriptions;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptions(String descriptions) {
-        this.descriptions = descriptions;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public String getPicturePath() {
-        return picturePath;
+    public String getColor() {
+        return color;
     }
 
-    public void setPicturePath(String picturePath) {
-        this.picturePath = picturePath;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public CategoryBean getC_id() {
-        return c_id;
+    public String getSize() {
+        return size;
     }
 
-    public void setC_id(CategoryBean c_id) {
-        this.c_id = c_id;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public String getDesigner_name() {
-        return designer_name;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setDesigner_name(String designer_name) {
-        this.designer_name = designer_name;
-    }
-
-    public int getP_qty() {
-        return p_qty;
-    }
-
-    public void setP_qty(int p_qty) {
-        this.p_qty = p_qty;
-    }
-    
-    
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }   
 }

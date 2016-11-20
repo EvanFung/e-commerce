@@ -1,4 +1,36 @@
+<%@page import="ict.bean.ProductBean"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="ict.servlet.LoginHandler"%>
+<%@page import="java.io.IOException"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="ict.db.ProductDB"%>
 <!DOCTYPE html>
+<%!
+    private ProductDB db;
+    
+    public void init(){
+        String username = this.getServletContext().getInitParameter("dbUser");
+        String password = this.getServletContext().getInitParameter("dbPassword");
+        String url = this.getServletContext().getInitParameter("dbUrl");
+        db = new ProductDB(url, username, password);
+        try {
+            db.createCustTable();
+            //Test data
+            db.addProduct("Product1", "Product1", "123", "Red,Green", "M/L", "Channel", "1.jpg");
+            db.addProduct("Product2", "Product2", "123", "Red,Green", "M/L", "Channel", "2.jpg");
+            db.addProduct("Product3", "Product3", "123", "Red,Green", "M/L", "Channel", "3.jpg");
+            db.addProduct("Product4", "Product2", "123", "Red,Green", "M/L", "Channel", "4.jpg");
+            db.addProduct("Product5", "Product3", "123", "Red,Green", "M/L", "Channel", "5.jpg");
+            db.addProduct("Product5", "Product3", "123", "Red,Green", "M/L", "Channel", "5.jpg");
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -10,14 +42,17 @@
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <script> 
         $(document).ready(function() {
             $('#login_message').hide();
             $('#register_message').hide();
+            $('#login').hide();
             $('#btn_login').click(function(event) {
                     var username = $('#username').val();
                     var password = $('#password').val();
-
+                    
                     $.ajax({
                         type: 'POST',
                         url: 'login',
@@ -29,30 +64,30 @@
                             if(responseText!='True'){
                                 $('#login_message').show();
                                 $('#login_message').text(responseText);
-                                
+                                $('#login_message').effect("shake");
                             }else {
                                 $('#login_message').attr('class', 'alert alert-success');
                                 $('#login_message').show();
                                 $('#login_message').text("Login Successfully.");
                                 
                                 setTimeout(function(){
-                                     window.location.href = "logined.jsp";
+                                   $('#login').modal('toggle');
+                                   location.reload();
                                 }, 500);
-                                
                             }
                         }
                     });
             });
-
+            
             $('#btn_register').click(function() {
                     var first_name = $('#first_name').val();
                     var last_name = $('#last_name').val();
                     var gender = $('input[id=gender]:checked').val();
-                    var dob = $('#dob').val();
                     var address = $('#address').val();
                     var password = $('#pass').val();
+                    var confirmPassword = $('#confirmPassword').val();
                     var email = $('#email').val();
-
+                    
                     $.ajax({
                         type: "POST",
                         url: 'register',
@@ -62,26 +97,36 @@
                             "password" : password,
                             "email" : email,
                             "gender" : gender,
-                            "dob" : dob,
-                            "address" : address
+                            "address" : address,
+                            "confirmPassword":confirmPassword
                         },
                         success: function(responseText) {
-                            if(responseText=='True'){
+                            if(responseText==""){
                                 $('#register_message').attr('class', 'alert alert-success');
                                 $('#register_message').show();
                                 $('.sa-innate-form').hide();
-                                $('#register_message').append('Register Successfully. <a href="#" id="test">Press here to Login</a>');
+                                $('#register_message').html('Register Successfully. <a href="#" id="test">Press here to Login</a>');
                             }else {
-                                location.reload();
+                                $('#register_message').show();
+                                $('#register_message').html(responseText);
+                                
                             }
                         }
                     });
             });
-
+            
              $('body').on('click', '#test', function () {
                  $('li a[href="#sectionA"]').tab('show');
                  $('.sa-innate-form').show();
-             });
+             }); 
+             
+             $('body').on('click', '#link_logout', function () {
+                 document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                 document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                 location.reload();
+             }); 
+             
+            
         });
     </script>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -103,133 +148,64 @@
 </head>
 
 <body>
-
+<% init(); %>
 
 <div class="container">
-
-    <div class="masthead">
-        <div class="navbar  navbar-fixed-top navbar-inverse">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <ul class="nav">
-                        <li><a class="brand" href="#">BuyBestProduct Ltd.</a></li>
-                        <li class="active"><a href="index.html">Home</a></li>
-                        <li><a href="checkout.html">Checkout <span class="badge badge-important">3</span></a></li>
-                        <li><a href="new.html">Order Placement</a></li>
-                        <li><a href="status.html">Order Status</a></li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Categories
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-header">Men</li>
-                                <li><a href="list.html">Clothes</a></li>
-                                <li><a href="list.html">Shoes</a></li>
-                                <li><a href="list.html">Watches</a></li>
-                                <li><a href="list.html">Jewlery</a></li>
-                                <li class="divider"></li>
-                                <li class="nav-header">Women</li>
-                                <li><a href="list.html">Clothes</a></li>
-                                <li><a href="list.html">Shoes</a></li>
-                                <li><a href="list.html">Watches</a></li>
-                                <li><a href="list.html">Jewlery</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Pages
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="aboutus.html">About Us</a></li>
-                                <li><a href="contactus.html">Contact Us</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a role="button" href="#" data-target="#login"  data-toggle="modal">Member</a>
-                        </li>
-                    </ul>
-                </div>
-            </div><!--end of navbar-inner-->
-        </div><!-- end of nav-->
-    </div><!--end of masthead -->
+    <!--Header -->
+    <jsp:include page="header.jsp" />
+    <!--Finish Header -->
+    
     <!-- Jumbotron -->
     <div class="jumbotron">
         <h1>Latest News</h1>
         <p class="lead">IVE Students - Buy one get one today!</p>
-        <a class="btn btn-large btn-success" href="list.html">Show Products</a>
+        <a class="btn btn-large btn-success" href="list.jsp">Show Products</a>
     </div>
 
     <hr>
-    <div name="carouselSlider" class="container">
-        <div id="myCarousel" class="carousel slide">
-            <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-            </ol>
-            <!-- Carousel items -->
-            <div class="carousel-inner">
-                <div class="active item">
-                    <img src="imgs/sliders/sliders_1.jpg" alt="Chania">
-                </div>
-                <div class="item">
-                    <img src="imgs/sliders/sliders_2.jpg" alt="Chania">
-                </div>
-                <div class="item">
-                    <img src="imgs/sliders/sliders_3.jpg" alt="Chania">
-                </div>
-            </div>
-            <!-- Carousel nav -->
-            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-        </div>
-    </div>
-
-    <hr/>
     <!-- Example row of columns -->
-    <div class="row-fluid">
-        <ul class="thumbnails">
-            <li class="span4">
-                <div class="thumbnail">
-                    <img alt="300x200" src="http://placehold.it/300x200">
-                    <div class="caption">
-                        <h3>Product A</h3>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
-                            gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a href="checkout.html" class="btn btn-primary">Add To Cart</a> <a href="view.html"
-                                                                                              class="btn">View</a></p>
-                    </div>
-                </div>
-            </li>
-            <li class="span4">
-                <div class="thumbnail">
-                    <img alt="300x200" src="http://placehold.it/300x200">
-                    <div class="caption">
-                        <h3>Product B</h3>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
-                            gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a href="checkout.html" class="btn btn-primary">Add To Cart</a> <a href="view.html"
-                                                                                              class="btn">View</a></p>
-                    </div>
-                </div>
-            </li>
-            <li class="span4">
-                <div class="thumbnail">
-                    <img alt="300x200" src="http://placehold.it/300x200">
-                    <div class="caption">
-                        <h3>Product C</h3>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
-                            gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a href="checkout.html" class="btn btn-primary">Add To Cart</a> <a href="view.html"
-                                                                                              class="btn">View</a></p>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+    <% 
+        int count = 0;
+        ArrayList <ProductBean> allProduct = db.getAllProduct(); 
+        
+        if (allProduct.size()!=0){
+            for (ProductBean i : allProduct){
+                if (count % 3 == 0){
+                    out.print("<div class='row-fluid'>");
+                    out.print("<ul class='thumbnails'>");
+                    out.print("<li class='span4'>");
+                    out.print("<div class='thumbnail'>");
+                    out.print("<img alt='300x200' src='img/product/" + i.getImage() + "'>");
+                    out.print("<div class='caption'>");
+                    out.print("<h3>" + i.getName() + "</h3>");
+                    out.print("<p>" + i.getDescription() + "</p>");
+                    out.print("<p><a href='checkout?id=" + i.getId() + "'class='btn btn-primary'>Add To Cart</a><a href='view.html' class='btn'>View</a></p>"); 
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</li>");
+                }else{
+                    out.print("<li class='span4'>");
+                    out.print("<div class='thumbnail'>");
+                    out.print("<img alt='300x200' src='img/product/" + i.getImage() + "'>");
+                    out.print("<div class='caption'>");
+                    out.print("<h3>" + i.getName() + "</h3>");
+                    out.print("<p>" + i.getDescription() + "</p>");
+                    out.print("<p><a href='checkout?id=" + i.getId() + "'class='btn btn-primary'>Add To Cart</a><a href='view.html' class='btn'>View</a></p>"); 
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</li>");
+                }
+
+                if ((count + 1) % 3 ==0 || allProduct.size() == count){
+                    out.print("</ul>");
+                    out.print("</div>");
+                }
+                
+                count ++;
+            }
+        }
+    %>
+   
 
     <div class="modal fade modal-login" id="login" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg" role="document">
@@ -263,7 +239,6 @@
                                                         <input type="password" id="password" name="password" class="form-control">
                                                     </div>
                                                     <button type="button" id="btn_login">Sign In</button>
-                                                    <a href="">Forgot Password?</a>
                                                 </form>
                                             </div>
                                             <div class="clearfix"></div>
@@ -274,40 +249,37 @@
                                                 <form class="sa-innate-form" method="post">
                                                     
                                                     <div class="form-group">
-                                                        <label for="name">First Name</label>
+                                                        <label for="name">First Name<font color="red"><b>*</b></font></label>
                                                         <input type="text" id="first_name" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="name">Last Name</label>
+                                                        <label for="name">Last Name<font color="red"><b>*</b></font></label>
                                                         <input type="text" id="last_name" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Email Address</label>
+                                                        <label>Email Address<font color="red"><b>*</b></font></label>
                                                         <input type="text" id="email" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Address</label>
+                                                        <label>Address<font color="red"><b>*</b></font></label>
                                                         <input type="text" id="address" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Gender</label>
-                                                        <input type="radio" id="gender" class="form-control" value="M">M
-                                                        <input type="radio" id="gender" class="form-control" value="F">F
+                                                        <label>Gender<font color="red"><b>*</b></font></label>
+                                                        <select style="height: 45px;" class="form-control" id="gender">
+                                                          <option value="M">Male</option>
+                                                          <option value="F">Female</option>
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Date of birth</label>
-                                                        <input type="text" id="dob" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Password</label>
+                                                        <label>Password<font color="red"><b>*</b></font></label>
                                                         <input type="password" id="pass" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Confirm password</label>
+                                                        <label>Confirm password<font color="red"><b>*</b></font></label>
                                                         <input type="password" id="confirmPassword" class="form-control">
                                                     </div>
                                                     <button type="button" id="btn_register">Join now</button>
-                                                    <a href="#"><p>By clicking Join now, you agree to hifriends's User Agreement, Privacy Policy, and Cookie Policy.</p></a>
                                                 </form>
                                             </div>
                                         </div>
@@ -317,9 +289,7 @@
                         </div>
                     </div>
                 </div><!--modal-body-->
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-                </div>
+                
             </div><!--modal-content-->
         </div><!--modal-dialog-->
     </div><!--modal-->
@@ -327,42 +297,5 @@
     <hr/>
 </div> <!-- /container -->
 
-
-<div class="footer">
-    <div class="row-fluid">
-        <div class="col-lg-12">
-            <ul class="mendi-social-networks">
-                <li class="facebook" style="height: 100%">
-                    <a href="" title="">
-                        <i class="fa fa-facebook"> </i>
-                        <p>JOIN US ON FACEBOOK</p>
-                        <span class="followers">268K Followers</span>
-                    </a>
-                </li>
-                <li class="twitter" style="height: 100%">
-                    <a href="" title="">
-                        <i class="fa fa-twitter"> </i>
-                        <p>FOLLOW US ON TWITTER</p>
-                        <span class="followers">268K Followers</span>
-                    </a>
-                </li>
-                <li class="googleplus" style="height: 100%">
-                    <a href="" title="">
-                        <i class="fa fa-google-plus"> </i>
-                        <p>ADD TO OUR CIRCLE</p>
-                        <span class="followers">268K Followers</span>
-                    </a>
-                </li>
-                <li class="linkedin" style="height: 100%">
-                    <a href="" title="">
-                        <i class="fa fa-linkedin"> </i>
-                        <p>CONNECT TO OUR NETWORK</p>
-                        <span class="followers">268K Followers</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
 </body>
 </html>

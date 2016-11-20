@@ -39,7 +39,6 @@ public class CustomerDB {
                         + "First_name  VARCHAR(30), "
                         + "Last_name  VARCHAR(30), "
                         + "Gender  VARCHAR(1), "
-                        + "Dob  VARCHAR(30), "
                         + "Address VARCHAR(100))";
                 stmnt.execute(sql);
 
@@ -58,21 +57,20 @@ public class CustomerDB {
         }
     }
     
-    public boolean addCustomer(String password, String email, String first_name, String last_name, String gender, String dob, String address){
+    public boolean addCustomer(String password, String email, String first_name, String last_name, String gender, String address){
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isSuccess = false;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "INSERT  INTO  CUSTOMER (Email, Password, First_name, Last_name, Gender, Dob, Address)  VALUES  (?,?,?,?,?,?,?)";
+            String preQueryStatement = "INSERT  INTO  CUSTOMER (Email, Password, First_name, Last_name, Gender, Address)  VALUES  (?,?,?,?,?,?)";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, email);
             pStmnt.setString(2, password);
             pStmnt.setString(3, first_name);
             pStmnt.setString(4, last_name);
             pStmnt.setString(5, gender);
-            pStmnt.setString(6, dob);
-            pStmnt.setString(7, address);
+            pStmnt.setString(6, address);
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
                 isSuccess = true;
@@ -91,18 +89,20 @@ public class CustomerDB {
     }
     
     public boolean tableExist(Connection conn, String tableName) throws SQLException {
-    boolean tExists = false;
-    try (ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null)) {
-        while (rs.next()) { 
-            String tName = rs.getString("TABLE_NAME");
-            if (tName != null && tName.equals(tableName)) {
-                tExists = true;
-                break;
+        boolean tExists = false;
+        
+        try (ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null)) {
+            while (rs.next()) { 
+                String tName = rs.getString("TABLE_NAME");
+                if (tName != null && tName.equals(tableName)) {
+                    tExists = true;
+                    break;
+                }
             }
         }
+        
+        return tExists;
     }
-    return tExists;
-}
     
     public boolean login(String username, String password){
         Connection cnnct = null;

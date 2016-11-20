@@ -42,19 +42,38 @@ public class RegisterHandler extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String confirmPassword = request.getParameter("confirmPassword");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String first_name = request.getParameter("first_name");
         String last_name = request.getParameter("last_name");
         String gender= request.getParameter("gender");
-        String dob = request.getParameter("dob");
         String address = request.getParameter("address");
-
-        boolean isCreated = db.addCustomer(password, email, first_name, last_name, gender, dob, address);
+        String reponseMessage = "<b>ERROR:</b>";
         
-        if(isCreated==true){
-            response.getWriter().write("True");
+        
+        String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        
+        if (confirmPassword==""||password==null||email==null||first_name==null||last_name==null||gender==null||address==null){
+            reponseMessage +="<br>*All fields are required to enter.";
+        }else{
+            if (email.matches(EMAIL_REGEX)==false &&  email!=null){
+                reponseMessage +="<br>*Please enter a valid Email address.";
+            }
+
+            if (confirmPassword.equals(password)==false){
+                reponseMessage +="<br>*The confirm password is not same as password.";
+            }
         }
+
+        if(reponseMessage=="<b>ERROR:</b>"){
+            db.addCustomer(password, email, first_name, last_name, gender, address);
+            reponseMessage = "";
+            response.getWriter().write(reponseMessage);
+        }else{
+            response.getWriter().write(reponseMessage);
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
