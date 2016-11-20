@@ -13,6 +13,7 @@ import java.io.*;
  */
 public class CustomerBean implements Serializable{
     private String username, password, email, first_name, last_name, gender, dob, address;
+    private int bounsPoint;
     
     public CustomerBean(){ 
     }
@@ -79,5 +80,13 @@ public class CustomerBean implements Serializable{
     
     public String getAddress(){
         return address;
+    }
+    
+    public int getBounsPoint() {
+        return bounsPoint;
+    }
+
+    public void setBounsPoint(int bounsPoint) {
+        this.bounsPoint = bounsPoint;
     }
 }
