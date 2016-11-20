@@ -100,9 +100,71 @@ public class ProductDB {
         }
         return isSuccess;
     }
+     
+    public ArrayList <ProductBean> getProductBySearchKey(String key){
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM  PRODUCT WHERE "
+                                        + "NAME LIKE ?" 
+                                        + " OR DESCRIPTION LIKE ?"     
+                                        + " OR PRICE LIKE ?"
+                                        + " OR COLOR LIKE ?"
+                                        + " OR BRAND LIKE ?";                   
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, "%"+key+"%");
+            pStmnt.setString(2, "%"+key+"%");
+            pStmnt.setString(3, "%"+key+"%");
+            pStmnt.setString(4, "%"+key+"%");
+            pStmnt.setString(5, "%"+key+"%");
+            
+            //Statement s = cnnct.createStatement();
+            ResultSet rs = pStmnt.executeQuery();
+
+            ArrayList list = new ArrayList();
+
+            while (rs.next()) {
+                ProductBean pb = new ProductBean();
+                pb.setId(rs.getString(1));
+                pb.setName(rs.getString(2));
+                pb.setPrice(rs.getString(3));
+                pb.setDescription(rs.getString(4));
+                pb.setColor(rs.getString(5));
+                pb.setSize(rs.getString(6));
+                pb.setBrand(rs.getString(7));
+                pb.setImage(rs.getString(8));
+                
+                list.add(pb);
+            }
+            System.out.print(list.size());
+            return list;
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+        return null;
+    }
     
     public ArrayList <ProductBean> getAllProduct(){
-                Connection cnnct = null;
+        Connection cnnct = null;
         PreparedStatement pStmnt = null;
         try {
             cnnct = getConnection();
