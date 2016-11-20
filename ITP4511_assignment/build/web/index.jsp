@@ -1,11 +1,3 @@
-<%@page import="ict.bean.ProductBean"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="ict.servlet.LoginHandler"%>
-<%@page import="java.io.IOException"%>
-<%@page import="java.util.logging.Logger"%>
-<%@page import="java.util.logging.Level"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="ict.db.ProductDB"%>
 <!DOCTYPE html>
 <%!
     private ProductDB db;
