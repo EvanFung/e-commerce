@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class ProductBean implements Serializable{
     //product id
-    private String p_id;
+    private int p_id;
     //product name
     private String p_name;
     //product descriptions
@@ -23,7 +23,7 @@ public class ProductBean implements Serializable{
     //product picture path
     private String picturePath;
     //in which category
-    private CategoryBean c_id;
+    private CategoryBean cat_id;
     //the one who design this product
     private String designer_name;
     //customer select quantity
@@ -32,24 +32,15 @@ public class ProductBean implements Serializable{
     public ProductBean() {
     }
 
-    public ProductBean(String p_id, String p_name, String descriptions, double price, String picturePath, CategoryBean c_id, String designer_name, int p_qty) {
-        this.p_id = p_id;
-        this.p_name = p_name;
-        this.descriptions = descriptions;
-        this.price = price;
-        this.picturePath = picturePath;
-        this.c_id = c_id;
-        this.designer_name = designer_name;
-        this.p_qty = p_qty;
-    }
-
-    public String getP_id() {
+    public int getP_id() {
         return p_id;
     }
 
-    public void setP_id(String p_id) {
+    public void setP_id(int p_id) {
         this.p_id = p_id;
     }
+
+
 
     public String getP_name() {
         return p_name;
@@ -83,13 +74,15 @@ public class ProductBean implements Serializable{
         this.picturePath = picturePath;
     }
 
-    public CategoryBean getC_id() {
-        return c_id;
+    public CategoryBean getCat_id() {
+        return cat_id;
     }
 
-    public void setC_id(CategoryBean c_id) {
-        this.c_id = c_id;
+    public void setCat_id(CategoryBean cat_id) {
+        this.cat_id = cat_id;
     }
+
+
 
     public String getDesigner_name() {
         return designer_name;

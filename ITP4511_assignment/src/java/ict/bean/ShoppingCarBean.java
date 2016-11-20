@@ -26,9 +26,9 @@ public class ShoppingCarBean {
         this.products = products;
     }
 
-    public void removeProduct(String p_id) {
+    public void removeProduct(int p_id) {
         for (ProductBean p : products) {
-            if (p.getP_id().equals(p_id)) {
+            if (p.getP_id() == p_id) {
                 products.remove(p);
             }
         }
