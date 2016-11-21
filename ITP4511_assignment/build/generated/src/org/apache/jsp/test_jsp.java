@@ -53,7 +53,7 @@ public final class test_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <body>\n");
       out.write("        <h1>Hello World!</h1>\n");
       out.write("        <ul>\n");
-      out.write("        <li><a href=\"handleCustomer?action=list\">list Customrer</a></li>\n");
+      out.write("        <li><a href=\"customerHandler?action=list\">list Customrer</a></li>\n");
       out.write("        </ul>\n");
       out.write("    </body>\n");
       out.write("</html>\n");

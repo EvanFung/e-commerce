@@ -32,5 +32,17 @@
         out.println("</tr>");
         out.println("</table>");
         %>
+        <form method="post" action="customerHandler">
+                    <input type="hidden" name="action" value="edit"/>
+                    email:<input type="hidden" name="email" value="abc@gmail.com" />
+                    Password:<input type="text" name="password" />
+                    <input type="submit" />
+        </form>
+        <form method="post" action="customerHandler">
+                    <input type="hidden" name="action" value="update"/>
+                    email:<input type="hidden" name="email" value="abc@gmail.com" />
+                    address<input type="text" name="address" />
+                    <input type="submit" />
+        </form>
     </body>
 </html>

@@ -44,7 +44,7 @@ public void init() {
     protected void processRequest(HttpServletRequest request,
     HttpServletResponse response) throws ServletException, IOException {
     String action = request.getParameter("action");
-    String email = request.getParameter("email");
+    
      if ("list".equalsIgnoreCase(action)) {
      // call the query db to get retrieve for all customer
      CustomerBean member = db.queryCustByEmail("abc@gmail.com");
@@ -55,10 +55,23 @@ public void init() {
      rd = getServletContext().getRequestDispatcher("/member.jsp");
      rd.forward(request, response);
      } else if("edit".equalsIgnoreCase(action)){
-    
-         db.editPassword("abc@gmail.com", "123456789");
+    String pwd = request.getParameter("password");
+    String email = request.getParameter("email");
+         db.editPassword(email, pwd);
         // call the query db to get retrieve for all customer
-        CustomerBean member = db.queryCustByEmail("abc@gmail.com");
+        CustomerBean member = db.queryCustByEmail(email);
+        // set the result into the attribute
+        request.setAttribute("customers", member);
+        // redirect the result to the listCustomers.jsp              
+     RequestDispatcher rd;
+     rd = getServletContext().getRequestDispatcher("/member.jsp");
+     rd.forward(request, response);        
+     }else if("update".equalsIgnoreCase(action)){
+    String address = request.getParameter("address");
+    String email = request.getParameter("email");
+         db.editAddress(email, address);
+        // call the query db to get retrieve for all customer
+        CustomerBean member = db.queryCustByEmail(email);
         // set the result into the attribute
         request.setAttribute("customers", member);
         // redirect the result to the listCustomers.jsp              
