@@ -44,14 +44,14 @@ public class ProductDB {
                 stmnt = cnnct.createStatement();  // create statement
                 String sql = "create table PRODUCT ("
                         + "p_id int primary key generated always as identity, "
-                        + "p_name  VARCHAR(30),  "
+                        + "p_name  VARCHAR(30),"
                         + "descriptions  VARCHAR(30), "
-                        + "price  DECIMAL(7,3), "
+                        + "price  VARCHAR(30), "
                         + "picturePath VARCHAR(200),"
                         + "Color  VARCHAR(30), "
                         + "Size  VARCHAR(30), "
-                        + "Brand  VARCHAR(30) "
-                        + "cat_id INT,"
+                        + "Brand  VARCHAR(30),"
+                        + "cat_id int,"
                         + "designer_name VARCHAR(30),"
                         + "p_qty INT"
                         + ") ";
@@ -73,21 +73,24 @@ public class ProductDB {
         }
     }
     
-     public boolean addProduct(String Name, String Description, String Price, String Color, String Size, String Brand, String Image) {
+     public boolean addProduct(String Name, String Description, String Price, String Color, String Size, String Brand, String Image,int cat_id,String designer_name,int p_qty) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isSuccess = false;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "INSERT  INTO  PRODUCT (Name, Description, Price, Color, Size, Brand, Image) VALUES  (?,?,?,?,?,?,?)";
+            String preQueryStatement = "INSERT  INTO  PRODUCT (p_name, descriptions, price, picturePath, Color, Size, Brand,cat_id,designer_name,p_qty) VALUES  (?,?,?,?,?,?,?,?,?,?)";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, Name);
             pStmnt.setString(2, Description);
             pStmnt.setString(3, Price);
-            pStmnt.setString(4, Color);
-            pStmnt.setString(5, Size);
-            pStmnt.setString(6, Brand);
-            pStmnt.setString(7, Image);
+            pStmnt.setString(4,Image);
+            pStmnt.setString(5, Color);
+            pStmnt.setString(6, Size);
+            pStmnt.setString(7, Brand);
+            pStmnt.setInt(8, cat_id);
+            pStmnt.setString(9, designer_name);
+            pStmnt.setInt(10, p_qty);
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
                 isSuccess = true;
@@ -111,8 +114,8 @@ public class ProductDB {
         try {
             cnnct = getConnection();
             String preQueryStatement = "SELECT * FROM  PRODUCT WHERE "
-                                        + "NAME LIKE ?" 
-                                        + " OR DESCRIPTION LIKE ?"     
+                                        + "P_NAME LIKE ?" 
+                                        + " OR DESCRIPTIONS LIKE ?"     
                                         + " OR PRICE LIKE ?"
                                         + " OR COLOR LIKE ?"
                                         + " OR BRAND LIKE ?";                   
@@ -130,14 +133,17 @@ public class ProductDB {
 
             while (rs.next()) {
                 ProductBean pb = new ProductBean();
-                pb.setId(rs.getString(1));
-                pb.setName(rs.getString(2));
-                pb.setPrice(rs.getString(3));
-                pb.setDescription(rs.getString(4));
-                pb.setColor(rs.getString(5));
-                pb.setSize(rs.getString(6));
-                pb.setBrand(rs.getString(7));
-                pb.setImage(rs.getString(8));
+                pb.setP_id(rs.getInt(1));
+                pb.setP_name(rs.getString(2));
+                pb.setPrice(rs.getString(4));
+                pb.setDescriptions(rs.getString(3));
+                pb.setPicturePath(rs.getString(5));
+                
+                pb.setColor(rs.getString(6));
+                pb.setSize(rs.getString(7));
+                pb.setBrand(rs.getString(8));
+                pb.setCat_id(rs.getInt(9));
+                pb.setDesigner_name(rs.getString(10));
                 
                 list.add(pb);
             }
@@ -183,12 +189,15 @@ public class ProductDB {
                 ProductBean pb = new ProductBean();
                 pb.setP_id(rs.getInt(1));
                 pb.setP_name(rs.getString(2));
-                pb.setPrice(rs.getDouble(3));
-                pb.setDescriptions(rs.getString(4));
-                pb.setColor(rs.getString(5));
-                pb.setSize(rs.getString(6));
-                pb.setBrand(rs.getString(7));
-                pb.setPicturePath(rs.getString(8));
+                pb.setPrice(rs.getString(4));
+                pb.setDescriptions(rs.getString(3));
+                pb.setPicturePath(rs.getString(5));
+                
+                pb.setColor(rs.getString(6));
+                pb.setSize(rs.getString(7));
+                pb.setBrand(rs.getString(8));
+                pb.setCat_id(rs.getInt(9));
+                pb.setDesigner_name(rs.getString(10));
                 
                 list.add(pb);
             }
@@ -231,5 +240,38 @@ public class ProductDB {
         }
         
         return tExists;
+    }
+    
+        public int dropOrdersTable() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "DROP TABLE ORDERS";
+            Statement s = cnnct.createStatement();
+            int rs = s.executeUpdate(preQueryStatement);
+            return rs;
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+        return 0;
     }
 }

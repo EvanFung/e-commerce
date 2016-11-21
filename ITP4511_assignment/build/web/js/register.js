@@ -33,9 +33,10 @@ $(document).ready(function() {
             });
             
             $('#btn_register').click(function() {
+                alert("gender");
                     var first_name = $('#first_name').val();
                     var last_name = $('#last_name').val();
-                    var gender = $('input[id=gender]:checked').val();
+                    var gender = $('#gender').val();
                     var address = $('#address').val();
                     var password = $('#pass').val();
                     var confirmPassword = $('#confirmPassword').val();

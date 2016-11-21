@@ -18,14 +18,14 @@
         try {
             db.createCustTable();
             //Test data
-/*
-            db.addProduct("Product1", "Product1", "123", "Red,Green", "M/L", "Channel", "1.jpg");
-            db.addProduct("Product2", "Product2", "123", "Red,Green", "M/L", "Channel", "2.jpg");
-            db.addProduct("Product3", "Product3", "123", "Red,Green", "M/L", "Channel", "3.jpg");
-            db.addProduct("Product4", "Product2", "123", "Red,Green", "M/L", "Channel", "4.jpg");
-            db.addProduct("Product5", "Product3", "123", "Red,Green", "M/L", "Channel", "5.jpg");
-            db.addProduct("Product5", "Product3", "123", "Red,Green", "M/L", "Channel", "5.jpg");
-*/
+
+            db.addProduct("Product1", "Product1", "123", "1.jpg", "M/L", "Channel", "1.jpg",1,"abc",2);
+            db.addProduct("Product2", "Product2", "123", "Red,Green", "M/L", "Channel", "2.jpg",1,"abc",2);
+            db.addProduct("Product3", "Product3", "123", "Red,Green", "M/L", "Channel", "3.jpg",1,"abc",2);
+            db.addProduct("Product4", "Product2", "123", "Red,Green", "M/L", "Channel", "4.jpg",1,"abc",2);
+            db.addProduct("Product5", "Product3", "123", "Red,Green", "M/L", "Channel", "5.jpg",1,"abc",2);
+            db.addProduct("Product5", "Product3", "123", "Red,Green", "M/L", "Channel", "5.jpg",1,"abc",2);
+
         } catch (SQLException ex) {
             Logger.getLogger(LoginHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -67,8 +67,8 @@
 </head>
 
 <body>
-<% init(); %>
 
+<%init();%>
 <div class="container">
     <!--Header -->
     <jsp:include page="header.jsp" />
@@ -94,22 +94,22 @@
                     out.print("<ul class='thumbnails'>");
                     out.print("<li class='span4'>");
                     out.print("<div class='thumbnail'>");
-                    out.print("<img alt='300x200' src='img/product/" + i.getImage() + "'>");
+                    out.print("<img alt='300x200' src='img/product/" + i.getPicturePath()+ "'>");
                     out.print("<div class='caption'>");
-                    out.print("<h3>" + i.getName() + "</h3>");
-                    out.print("<p>" + i.getDescription() + "</p>");
-                    out.print("<p><a href='checkout?id=" + i.getId() + "'class='btn btn-primary'>Add To Cart</a><a href='view.html' class='btn'>View</a></p>"); 
+                    out.print("<h3>" + i.getP_name()+ "</h3>");
+                    out.print("<p>" + i.getDescriptions() + "</p>");
+                    out.print("<p><a href='checkout?id=" + i.getP_id()+ "'class='btn btn-primary'>Add To Cart</a><a href='view.html' class='btn'>View</a></p>"); 
                     out.print("</div>");
                     out.print("</div>");
                     out.print("</li>");
                 }else{
                     out.print("<li class='span4'>");
                     out.print("<div class='thumbnail'>");
-                    out.print("<img alt='300x200' src='img/product/" + i.getImage() + "'>");
+                    out.print("<img alt='300x200' src='img/product/" + i.getPicturePath() + "'>");
                     out.print("<div class='caption'>");
-                    out.print("<h3>" + i.getName() + "</h3>");
-                    out.print("<p>" + i.getDescription() + "</p>");
-                    out.print("<p><a href='checkout?id=" + i.getId() + "'class='btn btn-primary'>Add To Cart</a><a href='view.html' class='btn'>View</a></p>"); 
+                    out.print("<h3>" + i.getP_name() + "</h3>");
+                    out.print("<p>" + i.getDescriptions() + "</p>");
+                    out.print("<p><a href='checkout?id=" + i.getP_id() + "'class='btn btn-primary'>Add To Cart</a><a href='view.html' class='btn'>View</a></p>"); 
                     out.print("</div>");
                     out.print("</div>");
                     out.print("</li>");

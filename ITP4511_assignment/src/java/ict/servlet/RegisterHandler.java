@@ -50,11 +50,12 @@ public class RegisterHandler extends HttpServlet {
         String gender= request.getParameter("gender");
         String address = request.getParameter("address");
         String reponseMessage = "<b>ERROR:</b>";
-        
+        System.out.println(confirmPassword + "confirmPassword" + "----password"+password+"----email"
+                +email+"first_name"+first_name+"last_name"+last_name+"----gender"+gender+"address"+address);
         
         String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         
-        if (confirmPassword==""||password==null||email==null||first_name==null||last_name==null||gender==null||address==null){
+        if (confirmPassword==null||password==null||email==null||first_name==null||last_name==null||gender==null||address==null){
             reponseMessage +="<br>*All fields are required to enter.";
         }else{
             if (email.matches(EMAIL_REGEX)==false &&  email!=null){
@@ -67,7 +68,7 @@ public class RegisterHandler extends HttpServlet {
         }
 
         if(reponseMessage=="<b>ERROR:</b>"){
-            db.addCustomer(password, email, first_name, last_name, gender, address);
+            db.addCustomer(password, email, first_name, last_name, gender, address,"customer");
             reponseMessage = "";
             response.getWriter().write(reponseMessage);
         }else{

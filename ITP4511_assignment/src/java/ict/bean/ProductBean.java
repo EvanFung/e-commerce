@@ -19,11 +19,11 @@ public class ProductBean implements Serializable{
     //product descriptions
     private String descriptions;
     //product price
-    private double price;
+    private String price;
     //product picture path
     private String picturePath;
     //in which category
-    private CategoryBean cat_id;
+    private int cat_id;
     //the one who design this product
     private String designer_name;
     //customer select quantity
@@ -62,13 +62,15 @@ public class ProductBean implements Serializable{
         this.descriptions = descriptions;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
+
+
 
     public String getPicturePath() {
         return picturePath;
@@ -78,14 +80,13 @@ public class ProductBean implements Serializable{
         this.picturePath = picturePath;
     }
 
-    public CategoryBean getCat_id() {
+    public int getCat_id() {
         return cat_id;
     }
 
-    public void setCat_id(CategoryBean cat_id) {
+    public void setCat_id(int cat_id) {
         this.cat_id = cat_id;
     }
-
 
 
     public String getDesigner_name() {
