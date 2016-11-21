@@ -33,7 +33,7 @@ $(document).ready(function() {
             });
             
             $('#btn_register').click(function() {
-                alert("gender");
+                
                     var first_name = $('#first_name').val();
                     var last_name = $('#last_name').val();
                     var gender = $('#gender').val();
