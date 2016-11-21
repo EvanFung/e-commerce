@@ -43,14 +43,18 @@ public class ProductDB {
                 cnnct = getConnection();  // the connection 
                 stmnt = cnnct.createStatement();  // create statement
                 String sql = "create table PRODUCT ("
-                        + "Id int primary key generated always as identity, "
-                        + "Name  VARCHAR(30),  "
-                        + "Description  VARCHAR(30), "
-                        + "Price  VARCHAR(30), "
+                        + "p_id int primary key generated always as identity, "
+                        + "p_name  VARCHAR(30),  "
+                        + "descriptions  VARCHAR(30), "
+                        + "price  DECIMAL(7,3), "
+                        + "picturePath VARCHAR(200),"
                         + "Color  VARCHAR(30), "
                         + "Size  VARCHAR(30), "
-                        + "Brand  VARCHAR(30), "
-                        + "Image  VARCHAR(30)) ";
+                        + "Brand  VARCHAR(30) "
+                        + "cat_id INT,"
+                        + "designer_name VARCHAR(30),"
+                        + "p_qty INT"
+                        + ") ";
                         
                 stmnt.execute(sql);
 
@@ -177,14 +181,14 @@ public class ProductDB {
 
             while (rs.next()) {
                 ProductBean pb = new ProductBean();
-                pb.setId(rs.getString(1));
-                pb.setName(rs.getString(2));
-                pb.setPrice(rs.getString(3));
-                pb.setDescription(rs.getString(4));
+                pb.setP_id(rs.getInt(1));
+                pb.setP_name(rs.getString(2));
+                pb.setPrice(rs.getDouble(3));
+                pb.setDescriptions(rs.getString(4));
                 pb.setColor(rs.getString(5));
                 pb.setSize(rs.getString(6));
                 pb.setBrand(rs.getString(7));
-                pb.setImage(rs.getString(8));
+                pb.setPicturePath(rs.getString(8));
                 
                 list.add(pb);
             }

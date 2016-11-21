@@ -1,3 +1,9 @@
+<%@page import="ict.servlet.LoginHandler"%>
+<%@page import="java.io.IOException"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="ict.db.ProductDB"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="ict.bean.ProductBean"%>
 <!DOCTYPE html>

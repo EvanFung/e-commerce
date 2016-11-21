@@ -26,9 +26,9 @@ public class ShoppingCartBean {
         this.products = products;
     }
 
-    public void removeProduct(String p_id) {
+    public void removeProduct(int id) {
         for (ProductBean p : products) {
-            if (p.getId().equals(p_id)) {
+            if(p.getP_id() == id) {
                 products.remove(p);
             }
         }

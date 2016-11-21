@@ -39,6 +39,7 @@ public class CustomerDB {
                         + "First_name  VARCHAR(30), "
                         + "Last_name  VARCHAR(30), "
                         + "Gender  VARCHAR(1), "
+                        +"bonusPoint INT,"
                         + "Address VARCHAR(100))";
                 stmnt.execute(sql);
 

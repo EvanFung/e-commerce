@@ -15,13 +15,13 @@ import java.util.ArrayList;
  */
 public class OrderBean implements Serializable{
     //order id
-    private Integer order_id;
+    private int order_id;
     //an order may has one to many products.
     private ArrayList<ProductBean> products;
     //an order has one customer
     private CustomerBean customer;
     //order of total quantity
-    private Integer order_qty;
+    private int order_qty;
     //order time
     private Date deliever_time;
     //order date
@@ -29,32 +29,22 @@ public class OrderBean implements Serializable{
     //deliever address
     private String deliever_add;
     //order state :canceled, delivered, picked-up, delay pickup date.
-    private String order_state;
+    private String order_state; 
     //self pickup or deliever
     private String order_option;
 
     public OrderBean() {
     }
 
-    public OrderBean(Integer order_id, ArrayList<ProductBean> products, CustomerBean customer, Integer order_qty, Date deliever_time, Date deliever_date, String deliever_add, String order_state, String order_option) {
-        this.order_id = order_id;
-        this.products = products;
-        this.customer = customer;
-        this.order_qty = order_qty;
-        this.deliever_time = deliever_time;
-        this.deliever_date = deliever_date;
-        this.deliever_add = deliever_add;
-        this.order_state = order_state;
-        this.order_option = order_option;
-    }
-
-    public Integer getOrder_id() {
+    public int getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(Integer order_id) {
+    public void setOrder_id(int order_id) {
         this.order_id = order_id;
     }
+
+
 
     public ArrayList<ProductBean> getProducts() {
         return products;
@@ -72,11 +62,11 @@ public class OrderBean implements Serializable{
         this.customer = customer;
     }
 
-    public Integer getOrder_qty() {
+    public int getOrder_qty() {
         return order_qty;
     }
 
-    public void setOrder_qty(Integer order_qty) {
+    public void setOrder_qty(int order_qty) {
         this.order_qty = order_qty;
     }
 
@@ -119,6 +109,8 @@ public class OrderBean implements Serializable{
     public void setOrder_option(String order_option) {
         this.order_option = order_option;
     }
+
+
     
     
 }

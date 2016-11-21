@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class GiftBean implements Serializable{
     //gift id
-    private String id;
+    private int g_id;
     //gift name
     private String name;
     //gifpicture Path
@@ -24,20 +24,15 @@ public class GiftBean implements Serializable{
     public GiftBean() {
     }
 
-    public GiftBean(String id, String name, String picturePath, int bonus) {
-        this.id = id;
-        this.name = name;
-        this.picturePath = picturePath;
-        this.bonus = bonus;
+    public int getG_id() {
+        return g_id;
     }
 
-    public String getId() {
-        return id;
+    public void setG_id(int g_id) {
+        this.g_id = g_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+
 
     public String getName() {
         return name;
@@ -61,5 +56,6 @@ public class GiftBean implements Serializable{
 
     public void setBonus(int bonus) {
         this.bonus = bonus;
-    }  
+    }
+    
 }
