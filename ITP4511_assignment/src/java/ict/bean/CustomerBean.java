@@ -12,8 +12,9 @@ import java.io.*;
  * @author Chris
  */
 public class CustomerBean implements Serializable{
-    private String username, password, email, first_name, last_name, gender, dob, address;
+    private String username, password, email, first_name, last_name, gender, dob, address,role;
     private int bonusPoint;
+    private int custid;
     public CustomerBean(){ 
     }
     
@@ -87,6 +88,22 @@ public class CustomerBean implements Serializable{
 
     public void setBonusPoint(int bonusPoint) {
         this.bonusPoint = bonusPoint;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public int getCustid() {
+        return custid;
+    }
+
+    public void setCustid(int custid) {
+        this.custid = custid;
     }
     
 }

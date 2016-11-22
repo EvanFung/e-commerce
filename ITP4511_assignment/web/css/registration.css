@@ -76,7 +76,6 @@ body{
 }
 .sa-innate-form input[type=text], input[type=password], input[type=file], textarea, select, email{
     font-size:13px;
-	padding:10px;
 	border:1px solid#ccc;
 	outline:none;
 	width:95%;

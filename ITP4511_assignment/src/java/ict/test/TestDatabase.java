@@ -5,10 +5,12 @@
  */
 package ict.test;
 
+import ict.bean.*;
 import ict.db.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,9 +26,29 @@ public class TestDatabase {
 //        db.createGiftTable();
 
 //        OrderDB db = new OrderDB(url, username, password);
+//        db.createOrderTable();
+//        Order_ProductDB db = new Order_ProductDB(url, username, password);
+//        db.createOrder_ProductTable();
 //        CategoryDB db = new CategoryDB(url, username, password);
 //        CustomerDB db = new CustomerDB(url, username, password);
-//        Category_ProductDB db = new Category_ProductDB(url, username, password); .....test to create the database by yourself, it should work.
+//        CustomerBean c = db.getCustIdById(1);
+//        System.out.println(c.getFirst_name());
+//        Category_ProductDB db = new Category_ProductDB(url, username, password);
+//        db.createCategory_ProductTable();
+//          ProductDB pb = new ProductDB(url,username,password);
+//          pb.createCustTable();
 
+        //use custid to search multi products
+        CustomerDB db = new CustomerDB(url, username, password);
+        int custid = db.getCustIdByEmail("1@a.com");
+        OrderDB odb = new OrderDB(url, username, password);
+        ArrayList<OrderBean>obs = odb.queryMyOrders(custid);
+        System.out.println(obs.size());
+        for(OrderBean ob : obs) {
+            ArrayList<ProductBean>pb = ob.getProducts();
+            for(ProductBean p :pb) {
+                System.out.println(p.getPicturePath());
+            }
+        }
     }
 }
