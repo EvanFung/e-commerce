@@ -5,6 +5,8 @@
  */
 package ict.db;
 
+import ict.bean.GiftBean;
+import ict.bean.ProductBean;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -69,7 +72,78 @@ public class GiftDB {
         }
 
     }
+    public boolean addGift(String name,String picturePath ,String bonus){
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "INSERT  INTO  GiftDB (name, picturePath, bonus) VALUES  (?,?,?)";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, name);
+            pStmnt.setString(2, picturePath);
+            pStmnt.setString(3, bonus);
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount >= 1) {
+                isSuccess = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return isSuccess;
+    }
+    public ArrayList <GiftBean> getAllGift(){
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM  GiftDB";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            //Statement s = cnnct.createStatement();
+            ResultSet rs = pStmnt.executeQuery();
+            ArrayList list = new ArrayList();
 
+            while (rs.next()) {
+                GiftBean gb = new GiftBean();
+                gb.setG_id(rs.getInt(1));
+                gb.setName(rs.getString(2));
+                gb.setPicturePath(rs.getString(3));
+                gb.setBonus(rs.getInt(4));
+                
+                list.add(gb);
+            }
+            return list;
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+        return null;
+    }
+    
     public boolean tableExist(Connection conn, String tableName) throws SQLException {
         boolean tExists = false;
         try (ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null)) {

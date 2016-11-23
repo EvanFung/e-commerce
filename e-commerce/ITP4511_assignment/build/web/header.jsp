@@ -27,7 +27,8 @@
         }
       
     }
-%>  
+%>
+    
 <div class="masthead">
         <div class="navbar  navbar-fixed-top navbar-inverse">
             <div class="navbar-inner">
@@ -83,8 +84,7 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="customerHandler?action=list&email=<%=getCookieValue(request.getCookies(), "username")%>">My Info</a></li>
-                                <li><a href="index.jsp" id="link_logout">Logout</a></li>
+                                <li><a href="#" id="link_logout">Logout</a></li>
                             </ul>
                         </li>
                            <%}%>
